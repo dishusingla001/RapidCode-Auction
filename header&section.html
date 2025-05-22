@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EraBid - Today's Top Bids</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f6f7fb;
+      min-height: 100vh;
+    }
+
+    /* Header Styles */
+    header {
+      background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+      box-shadow: 0 4px 16px rgba(30,60,114,0.08);
+      padding: 0;
+    }
+
+    .headerContainer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 32px;
+    }
+
+    .headerItems {
+      display: flex;
+      align-items: center;
+    }
+
+    #logo {
+      height: 48px;
+      width: auto;
+      transition: transform 0.2s;
+      border-radius: 50%;
+    }
+
+    #logo:hover {
+      transform: scale(1.05);
+    }
+
+    .brand-text {
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-left: 12px;
+      text-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .nav-items {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-link {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: background 0.2s;
+    }
+
+    .nav-link:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .login-btn {
+      background: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 10px 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .login-btn a {
+      text-decoration: none;
+      color: #1e3c72;
+      font-weight: 600;
+    }
+
+    /* Main Content Styles */
+    .mainContent {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: calc(100vh - 80px);
+      padding: 40px 20px;
+    }
+
+    .masterContainer {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      margin-bottom: 40px;
+    }
+
+    figcaption {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      color: #333;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+    }
+
+    figcaption::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+
+    .scroll-box {
+      overflow: hidden;
+      border-radius: 15px;
+      background: #f8f9fa;
+      padding: 20px;
+      box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .scroll-container {
+      display: flex;
+      gap: 30px;
+      overflow-x: auto;
+      padding: 20px 0;
+      scroll-behavior: smooth;
+    }
+
+    .scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .scroll-container::-webkit-scrollbar-track {
+      background: #e9ecef;
+      border-radius: 10px;
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb {
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 10px;
+    }
+
+    .scroll-container > div {
+      min-width: 280px;
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-container > div::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: left 0.5s;
+    }
+
+    .scroll-container > div:hover::before {
+      left: 100%;
+    }
+
+    .scroll-container > div:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    .scroll-container img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+      border: 3px solid #e9ecef;
+    }
+
+    .scroll-container > div:hover img {
+      transform: scale(1.1);
+      border-color: #667eea;
+    }
+
+    .scroll-container p {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+      text-transform: capitalize;
+      letter-spacing: 0.5px;
+    }
+
+    .bid-price {
+      font-size: 1.4rem;
+      color: #e74c3c;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .bid-status {
+      display: inline-block;
+      padding: 5px 15px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+
+    /* About Section Styles */
+    .aboutContainer {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .aboutContainer h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-align: center;
+      color: #333;
+      margin-bottom: 40px;
+      text-transform: capitalize;
+      letter-spacing: 1px;
+      position: relative;
+    }
+
+    .aboutContainer h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+
+    .images {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .images img {
+      width: 250px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .images img:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    #longImage {
+      width: 100% !important;
+      height: 300px !important;
+      max-width: 800px;
+    }
+
+    .about-section {
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 15px;
+      margin-top: 30px;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .about-section h3 {
+      font-size: 1.8rem;
+      color: #1e3c72;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .about-section p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #555;
+      text-align: justify;
+    }
+
+    .about-section strong {
+      color: #1e3c72;
+      font-weight: 700;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .headerContainer {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+      }
+
+      .nav-items {
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .brand-text {
+        font-size: 1.2rem;
+        margin-left: 8px;
+      }
+
+      .masterContainer, .aboutContainer {
+        padding: 20px;
+        margin: 20px;
+      }
+
+      figcaption, .aboutContainer h1 {
+        font-size: 2rem;
+      }
+
+      .scroll-container > div {
+        min-width: 240px;
+        padding: 20px;
+      }
+
+      .scroll-container img {
+        width: 150px;
+        height: 150px;
+      }
+
+      .images img {
+        width: 200px;
+        height: 150px;
+      }
+
+      .images {
+        gap: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      figcaption, .aboutContainer h1 {
+        font-size: 1.5rem;
+      }
+
+      .scroll-container > div {
+        min-width: 200px;
+        padding: 15px;
+      }
+
+      .scroll-container img {
+        width: 120px;
+        height: 120px;
+      }
+
+      .nav-items {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .images img {
+        width: 150px;
+        height: 120px;
+      }
+
+      .about-section h3 {
+        font-size: 1.4rem;
+      }
+
+      .about-section p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <div class="headerContainer">
+      <!-- Logo Section -->
+      <div class="headerItems">
+        <a href="./index.html">
+          <img src="data:image/png;base64,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" id="logo" alt="EraBid Logo">
+        </a>
+        <span class="brand-text">EraBid</span>
+      </div>
+      
+      <!-- Navigation Links -->
+      <div class="headerItems">
+        <nav class="nav-items">
+          <a href="./index.html" class="nav-link">Active Now</a>
+          <a href="./auctions.html" class="nav-link">Results</a>
+          <a href="./about.html" class="nav-link">Categories</a>
+          <a href="./aboutus.html" class="nav-link">About Us</a>
+        </nav>
+      </div>
+      
+      <!-- Login Button -->
+      <div class="headerItems">
+        <button class="login-btn">
+          <a href="./login.html">Sign In</a>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Section -->
+  <div class="mainContent">
+    <div class="masterContainer">
+      <figcaption>Today's Top Bids</figcaption>
+      <div class="scroll-box">
+        <div class="scroll-container">
+          <div>
+            <img src="luxurycar.png" alt="1965 Luxury Car" />
+            <p>1965 Luxury Car</p>
+            <div class="bid-price">$45,000</div>
+            <span class="bid-status">Live Auction</span>
+          </div>
+          <div>
+            <img src="vintagesetereo.png" alt="1960s Stereo" />
+            <p>1960s Vintage Stereo</p>
+            <div class="bid-price">$1,250</div>
+            <span class="bid-status">Live Auction</span>
+          </div>
+          <div>
+            <img src="luxurywatch.png" alt="Luxury Watch" />
+            <p>Swiss Luxury Watch</p>
+            <div class="bid-price">$8,900</div>
+            <span class="bid-status">Live Auction</span>
+          </div>
+          <div>
+            <img src="./Graphic designing/car.png" alt="Vintage Motorcycle" />
+            <p>Classic Motorcycle</p>
+            <div class="bid-price">$12,500</div>
+            <span class="bid-status">Ending Soon</span>
+          </div>
+          <div>
+            <img src="./Graphic designing/radio.png" alt="Antique Furniture" />
+            <p>Antique Furniture Set</p>
+            <div class="bid-price">$3,200</div>
+            <span class="bid-status">Live Auction</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="aboutContainer">
+      <h1>Fortunes: where tradition meets modern bidding</h1>
+      <div class="images">
+        <img src="./Graphic designing/aboutUs/brothers.png" alt="Founding Brothers">
+        <img src="./Graphic designing/aboutUs/home.png" alt="Our Home">
+        <img src="./Graphic designing/aboutUs/people.png" alt="Our People">
+        <img src="./Graphic designing/aboutUs/speech.jpg" alt="Our Speech">
+      </div>
+      <div class="images">
+        <img src="./Graphic designing/aboutUs/about_us_bill_putnam_@2x.jpg" alt="Heritage Image" id="longImage">
+      </div>
+      <div class="about-section">
+        <h3>founded in 1942</h3>
+        <p>Established by two brothers, Richard and William Hart, <strong>Fortunes</strong> began as a modest auction house in 1942, specializing in rare art, collectibles, and valuable heirlooms. With a passion for preserving heritage and connecting collectors with unique finds, Fortunes quickly became a trusted name among collectors and investors. Throughout the 1950s and 60s, the Harts expanded operations, opening offices in bustling cities from London to New York, helping people rediscover and cherish the value of the past.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
