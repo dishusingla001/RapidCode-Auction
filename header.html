@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EraBid</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f6f7fb;
+    }
+    header {
+      background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+      box-shadow: 0 4px 16px rgba(30,60,114,0.08);
+      padding: 0;
+    }
+    .masterContainer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 32px;
+    }
+    .headerItems {
+      display: flex;
+      align-items: center;
+    }
+    #logo {
+      height: 48px;
+      width: auto;
+      transition: transform 0.2s;
+      border-radius: 50%;
+    }
+    #logo:hover {
+      transform: scale(1.05);
+    }
+    .brand-text {
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-left: 12px;
+      text-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+    }
+    .nav-items {
+      display: flex;
+      gap: 24px;
+    }
+    .nav-link {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: background 0.2s;
+    }
+    .nav-link:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    .login-btn {
+      background: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 10px 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .login-btn a {
+      text-decoration: none;
+      color: #1e3c72;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="masterContainer">
+      <!-- Logo Section -->
+      <div class="headerItems">
+        <a  href="./index.html">
+          <img src="data:image/png;base64,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" id="logo" alt="RapidCode Auction Logo">
+        </a>
+        <span class="brand-text">EraBid</span>
+      </div>
+      
+      <!-- Navigation Links -->
+      <div class="headerItems">
+        <nav class="nav-items">
+          <a href="./index.html" class="nav-link">Home</a>
+          <a href="./auctions.html" class="nav-link">Auctions</a>
+          <a href="./about.html" class="nav-link">About</a>
+          <a href="./contact.html" class="nav-link">Contact</a>
+        </nav>
+      </div>
+      
+      <!-- Login Button -->
+      <div class="headerItems">
+        <button class="login-btn">
+          <a href="./login.html">Sign In</a>
+        </button>
+      </div>
+    </div>
+  </header>
+</body>
+</html>
